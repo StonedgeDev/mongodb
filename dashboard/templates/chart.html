@@ -1,0 +1,307 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="card shadow">
+        <div class="card-header">
+            <h4 class="card-title">Revenue</h4>
+        </div>
+        <div class="card-body">
+            <canvas id="a" style="width:100%; height: 350px"></canvas>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+        <div class="card shadow">
+            <div class="card-body">
+                <h4 class="card-title">Available in Machine</h4>
+                  <div class="progress" style="height:30px">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:{{ bar[0]['Current_Quantity']['One']*2.85 }}%;height:30px; background-color: #645DD7"><b>Size 1</b></div>
+                  </div><br>
+                  <div class="progress" style="height:30px">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{ bar[0]['Current_Quantity']['Two']*2.85 }}%;height:30px; background-color: #ff4f79"><b>Size 2</b></div>
+                  </div>
+            </div>
+        </div>
+</div>
+<br>
+
+
+<div class="container">
+    <div class="card shadow">
+        <div class="card-header">
+            <h4 class="card-title">Sale</h4>
+        </div>
+        <div class="card-body">
+            <canvas id="b" style="width:100%; height: 350px"></canvas>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="container">
+    <div class="card shadow">
+        <div class="card-header">
+            <h4 class="card-title">Revenue</h4>
+        </div>
+        <div class="card-body">
+            <canvas id="c" style="width:100%; height: 350px"></canvas>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container"  style="width:auto">
+<div class="row align-items-center">
+    <div class="col-lg-8 mb-4">
+    <div class="card shadow">
+        <div class="card-header">
+            <h4 class="card-title">Sale</h4>
+        </div>
+        <div class="card-body">
+            <canvas id="d" style="width:100%; height: 350px"></canvas>
+        </div>
+    </div>
+    </div>
+    <div class="col-lg-4 mb-4">
+    <div class="card shadow">
+        <div class="card-header">
+            <h4 class="card-title">Sale</h4>
+        </div>
+        <div class="card-body">
+            <canvas id="d" style="width:100%; height: 290px"></canvas>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+
+
+<div class="container"  >
+<div class="row align-items-center">
+    <div class="card shadow">
+        <div class="card-header">
+            <h4 class="card-title">Fillings</h4>
+        </div>
+        <div class="card-body">
+            <canvas id="f" style="width:100%; height: 350px"></canvas>
+        </div>
+    </div>
+</div>
+</div>
+<div class="container"  >
+<div class="row align-items-center">
+     <div class="col-lg-4 mb-4">
+    <div class="card shadow">
+        <div class="card-header">
+            <h4 class="card-title">Dummy</h4>
+        </div>
+        <div class="card-body">
+            <canvas id="d" style="width:100%; height: 290px"></canvas>
+        </div>
+    </div>
+    </div>
+
+     <div class="col-lg-8 mb-4">
+    <div class="card shadow">
+        <div class="card-header">
+            <h4 class="card-title">Fillings</h4>
+        </div>
+        <div class="card-body">
+            <canvas id="h" style="width:100%; height: 350px"></canvas>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+
+//  ***************************************** ONE ************************************************************
+  new Chart("a", {
+  type: "line",
+  data: {
+    labels: [ {% for i in labels1 %} '{{ i[:5] }}', {% endfor %} ],
+    datasets: [{
+      label:"size1",
+      borderColor: "#724cf9",
+      data: [{% for i in graph1a %} {{ i }}, {% endfor %}],
+    },
+    {
+      label:"size2",
+        borderColor: "#ff0035",
+        data: [{% for i in graph1b %} {{ i }}, {% endfor %}],
+        fill: true
+    },
+    {
+      label:"Total",
+        borderColor: "#590925",
+        data: [{% for i in graph_t1 %} {{ i }}, {% endfor %}],
+        fill: true
+    }
+  ]
+  },
+  options: {
+      legend: {display: true},
+      responsive: true
+    }
+});
+
+//  ***************************************** TWO ************************************************************
+  new Chart("b", {
+  type: "line",
+  data: {
+    labels: [ {% for i in labels1 %} '{{ i[:5] }}', {% endfor %} ],
+    datasets: [{
+      label:"size1",
+      borderColor: "#724cf9",
+      data: [{% for i in graph2a %} {{ i }}, {% endfor %}],
+    },
+    {
+      label:"size2",
+        borderColor: "#ff0035",
+        data: [{% for i in graph2b %} {{ i }}, {% endfor %}],
+        fill: true
+    },
+    {
+      label:"Total",
+        borderColor: "#590925",
+        data: [{% for i in graph_t2 %} {{ i }}, {% endfor %}],
+        fill: true
+    }
+  ]
+  },
+  options: {
+      legend: {display: true}
+    }
+});
+
+
+
+//  ***************************************** THREE ************************************************************
+  new Chart("c", {
+  type: "bar",
+  data: {
+    labels: [ {% for i in labels2 %} '{{ i }}', {% endfor %} ],
+    datasets: [{
+      label:"size1",
+      backgroundColor: "#724cf9",
+      data: [{% for i in graph3a %} {{ i }}, {% endfor %}],
+      fill: true,
+      radius: 20,
+    },
+    {
+      label:"size2",
+        backgroundColor: "#ff0035",
+        data: [{% for i in graph3b %} {{ i }}, {% endfor %}],
+        fill: true
+    },
+    {
+      label:"Total",
+        backgroundColor: "#590925",
+        data: [{% for i in graph_t3 %} {{ i }}, {% endfor %}],
+        fill: true
+    }
+  ]
+  },
+  options: {
+      legend: {display: true}
+    }
+});
+
+//  ***************************************** FOUR ************************************************************
+  new Chart("d", {
+  type: "bar",
+  data: {
+    labels: [ {% for i in labels2 %} '{{ i }}', {% endfor %} ],
+    datasets: [{
+      label:"size1",
+      backgroundColor: "#724cf9",
+      data: [{% for i in graph4a %} {{ i }}, {% endfor %}],
+    },
+    {
+      label:"size2",
+        backgroundColor: "#ff0035",
+        data: [{% for i in graph4b %} {{ i }}, {% endfor %}],
+    },
+    {
+      label:"Total",
+        backgroundColor: "#590925",
+        data: [{% for i in graph_t4 %} {{ i }}, {% endfor %}],
+    }
+  ]
+  },
+  options: {
+      legend: {display: true}
+    }
+});
+
+
+
+
+//  ***************************************** SIX ************************************************************
+  new Chart("f", {
+  type: "line",
+  data: {
+    labels: [ {% for i in labels3 %} '{{ i[:5] }}', {% endfor %} ],
+    datasets: [{
+      label:"size1",
+      borderColor: "#724cf9",
+      data: [{% for i in graph6a %} {{ i }}, {% endfor %}],
+    },
+    {
+      label:"size2",
+        borderColor: "#ff0035",
+        data: [{% for i in graph6b %} {{ i }}, {% endfor %}],
+        fill: true
+    },
+    {
+      label:"Total",
+        borderColor: "#590925",
+        data: [{% for i in graph_t6 %} {{ i }}, {% endfor %}],
+        fill: true
+    }
+  ]
+  },
+  options: {
+      legend: {display: true}
+    }
+});
+
+
+
+
+//  ***************************************** EIGHT ************************************************************
+  new Chart("h", {
+  type: "bar",
+  data: {
+    labels: [ {% for i in labels4 %} '{{ i }}', {% endfor %} ],
+    datasets: [{
+      label:"size1",
+      backgroundColor: "#724cf9",
+      data: [{% for i in graph8a %} {{ i }}, {% endfor %}],
+      fill: true
+    },
+    {
+      label:"size2",
+        backgroundColor: "#ff0035",
+        data: [{% for i in graph8b %} {{ i }}, {% endfor %}],
+        fill: true
+    },
+    {
+      label:"Total",
+        backgroundColor: "#590925",
+        data: [{% for i in graph_t8 %} {{ i }}, {% endfor %}],
+        fill: true
+    }
+  ]
+  },
+  options: {
+      legend: {display: true}
+    }
+});
+
+
+
+
+</script>
+
+{% endblock content %}

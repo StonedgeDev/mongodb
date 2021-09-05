@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://nsanju0413.github.io/signup.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="image">
+      <img src="https://nsanju0413.github.io/Images/ilustracion-negocios.svg" alt="Name" class="image-man" />
+    </div>
+    <div class="login">
+      <img src="https://nsanju0413.github.io/Images/person.svg" alt="Person" class="login-img" />
+      <h1 class="login-title">Welcome</h1>
+
+
+      <form class="login-form" action="" method="post">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                {{message}}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <div class="form-group">
+          <label class="form-label" for="username">Username</label>
+            <input type="text" class="form-input" id="username" name="username" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+            <input type="password" class="form-input" id="password" name="password" />
+        </div>
+
+        <div class="login-forgod">
+          <a href="{{ url_for('signup') }}">Sign up</a>
+        </div>
+
+        <button type="submit" class="login-submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

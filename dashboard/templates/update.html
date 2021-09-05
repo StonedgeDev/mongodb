@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<form action="" method="post">
+    {% for i in items %}
+        <label for="i_{{ i }}">{{ i }}</label>
+        <input type="text" id="i_{{ i }}" name= "i_{{ i }}" value="{{ items[i] }}">
+        <br>
+    {% endfor %}
+
+    {% for i in prices %}
+        <label for="p_{{ i }}">{{ i }}</label>
+        <input type="number" id="p_{{ i }}" name="p_{{ i }}" value="{{ prices[i] }}">
+        <br>
+    {% endfor %}
+
+    <input type="submit">
+</form>
+
+
+{% endblock content %}
