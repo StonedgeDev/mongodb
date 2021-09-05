@@ -9,6 +9,9 @@ from flask_login import LoginManager, login_user, logout_user, login_required, U
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Message, Mail
 import random
+import calendar
+
+
 
 machine_number = 0
 OTP_dict = {}
@@ -123,11 +126,12 @@ def main_page():
 @login_required
 def dashboard(m_no):
     if not current_user.machine:
-        return render_template('blank.html')
+        return render_template('blank.html', m_no=m_no)
     print(OTP_dict)
-    now_month = datetime.datetime.now().strftime('%m%Y')
-    a = sales_data(m_no, payments,  datetime.datetime.strptime('01'+now_month, '%d%m%Y'),  datetime.datetime.strptime('31'+now_month, '%d%m%Y'))
-    b, c, d, e, f = line_graph(m_no, payments, datetime.datetime.strptime('01'+now_month, '%d%m%Y'),  datetime.datetime.strptime('31'+now_month, '%d%m%Y'), DAILY)
+    now_month = datetime.datetime.now().strftime('%m-%Y')
+    _, l_date = calendar.monthrange(int(now_month.split('-')[1]), int(now_month.split('-')[0]))
+    a = sales_data(m_no, payments,  datetime.datetime.strptime('01'+now_month, '%d%m-%Y'),  datetime.datetime.strptime(str(l_date)+now_month, '%d%m-%Y'))
+    b, c, d, e, f = line_graph(m_no, payments, datetime.datetime.strptime('01'+now_month, '%d%m-%Y'),  datetime.datetime.strptime(str(l_date)+now_month, '%d%m-%Y'), DAILY)
     g = machine(m_no)
 
 
@@ -138,15 +142,16 @@ def dashboard(m_no):
 @login_required
 def table(m_no):
     if not current_user.machine:
-        return render_template('blank.html')
+        return render_template('blank.html', m_no=m_no)
 
-    now_month = datetime.datetime.now().strftime('%m%Y')
+    now_month = datetime.datetime.now().strftime('%m-%Y')
+    _, l_date = calendar.monthrange(int(now_month.split('-')[1]), int(now_month.split('-')[0]))
     now_year = datetime.datetime.now().strftime('%Y')
-    a = sales_data(m_no, payments, datetime.datetime.strptime('01'+now_month, '%d%m%Y'),  datetime.datetime.strptime('31'+now_month, '%d%m%Y'))
-    b = sales_data(m_no, fillings, datetime.datetime.strptime('01'+now_month, '%d%m%Y'),  datetime.datetime.strptime('31'+now_month, '%d%m%Y'))
-    c = sales_data(m_no, fillings, datetime.datetime.strptime('01'+now_month, '%d%m%Y'),  datetime.datetime.strptime('31'+now_month, '%d%m%Y'))
-    d1, e1, f1, g1, h1 = line_graph(m_no, payments, datetime.datetime.strptime('01'+now_month, '%d%m%Y'),  datetime.datetime.strptime('31'+now_month, '%d%m%Y'), DAILY)
-    d2, e2, f2, g2, h2 = line_graph(m_no, payments, datetime.datetime.strptime('01'+now_month, '%d%m%Y'),  datetime.datetime.strptime('31'+now_month, '%d%m%Y'), MONTHLY)
+    a = sales_data(m_no, payments, datetime.datetime.strptime('01'+now_month, '%d%m-%Y'),  datetime.datetime.strptime(str(l_date)+now_month, '%d%m-%Y'))
+    b = sales_data(m_no, fillings, datetime.datetime.strptime('01'+now_month, '%d%m-%Y'),  datetime.datetime.strptime(str(l_date)+now_month, '%d%m-%Y'))
+    c = sales_data(m_no, fillings, datetime.datetime.strptime('01'+now_month, '%d%m-%Y'),  datetime.datetime.strptime(str(l_date)+now_month, '%d%m-%Y'))
+    d1, e1, f1, g1, h1 = line_graph(m_no, payments, datetime.datetime.strptime('01'+now_month, '%d%m-%Y'),  datetime.datetime.strptime(str(l_date)+now_month, '%d%m-%Y'), DAILY)
+    d2, e2, f2, g2, h2 = line_graph(m_no, payments, datetime.datetime.strptime('01'+now_month, '%d%m-%Y'),  datetime.datetime.strptime(str(l_date)+now_month, '%d%m-%Y'), MONTHLY)
 
     return render_template('table.html', table_a=a, table_b=b, table_c=c, table1a=d1, table1b=e1, table1c=f1, len1=len(d1), table1d=g1, table1e=h1,
                            table2a=d2, table2b=e2, table2c=f2, len2=len(d2), table2d=g2, table2e=h2, m_no=m_no)
@@ -156,14 +161,15 @@ def table(m_no):
 @login_required
 def chart(m_no):
     if not current_user.machine:
-        return render_template('blank.html')
+        return render_template('blank.html', m_no=m_no)
 
-    now_month = datetime.datetime.now().strftime('%m%Y')
+    now_month = datetime.datetime.now().strftime('%m-%Y')
+    _, l_date = calendar.monthrange(int(now_month.split('-')[1]), int(now_month.split('-')[0]))
     now_year = datetime.datetime.now().strftime('%Y')
-    b, c, d, e, f = line_graph(m_no, payments, datetime.datetime.strptime('01'+now_month, '%d%m%Y'),  datetime.datetime.strptime('31'+now_month, '%d%m%Y'), DAILY)
-    bb, cc, dd, ee, ff = line_graph(m_no, payments, datetime.datetime.strptime('11'+now_year, '%d%m%Y'),  datetime.datetime.strptime('3112'+now_year, '%d%m%Y'), MONTHLY)
-    b1, _, _, e1, f1 = line_graph(m_no, fillings, datetime.datetime.strptime('01'+now_month, '%d%m%Y'),  datetime.datetime.strptime('31'+now_month, '%d%m%Y'), DAILY)
-    bb1, _, _, ee1, ff1 = line_graph(m_no, fillings, datetime.datetime.strptime('11'+now_year, '%d%m%Y'),  datetime.datetime.strptime('3112'+now_year, '%d%m%Y'), MONTHLY)
+    b, c, d, e, f = line_graph(m_no, payments, datetime.datetime.strptime('01'+now_month, '%d%m-%Y'),  datetime.datetime.strptime(str(l_date)+now_month, '%d%m-%Y'), DAILY)
+    bb, cc, dd, ee, ff = line_graph(m_no, payments, datetime.datetime.strptime('11'+now_year, '%d%m%Y'),  datetime.datetime.strptime(str(l_date)+'12'+now_year, '%d%m%Y'), MONTHLY)
+    b1, _, _, e1, f1 = line_graph(m_no, fillings, datetime.datetime.strptime('01'+now_month, '%d%m-%Y'),  datetime.datetime.strptime(str(l_date)+now_month, '%d%m-%Y'), DAILY)
+    bb1, _, _, ee1, ff1 = line_graph(m_no, fillings, datetime.datetime.strptime('11'+now_year, '%d%m%Y'),  datetime.datetime.strptime(str(l_date)+'12'+now_year, '%d%m%Y'), MONTHLY)
 
     g = machine(machine_number)
 
@@ -178,7 +184,7 @@ def chart(m_no):
                            )
 
 
-@app.route('/profile', methods=['POST', 'GET'])
+@app.route('/<m_no>/profile', methods=['POST', 'GET'])
 @login_required
 def profile(m_no):
     if request.method == 'POST':
@@ -208,28 +214,31 @@ def profile(m_no):
 
 @app.route('/<m_no>/update', methods=['POST', 'GET'])
 def update(m_no):
-    q = machines.find_one({'_id': current_user.machine[int(m_no)]})
-    items = q['Items']
-    prices = q['Price']
+    if current_user.machine:
+        q = machines.find_one({'_id': current_user.machine[int(m_no)]})
+        items = q['Items']
+        prices = q['Price']
 
-    if request.method == 'POST':
-        i, p = {}, {}
-        for j in items:
-            exec("itm_j = request.form.get('{}')".format('i_'+str(j)))
-            exec("i[j] = itm_j")
-        print(i)
-        for j in prices:
-            exec("itm_k = request.form.get('{}')".format('p_' + str(j)))
-            exec("p[j] = itm_k")
-        print(p)
+        if request.method == 'POST':
+            i, p = {}, {}
+            for j in items:
+                exec("itm_j = request.form.get('{}')".format('i_'+str(j)))
+                exec("i[j] = itm_j")
+            print(i)
+            for j in prices:
+                exec("itm_k = request.form.get('{}')".format('p_' + str(j)))
+                exec("p[j] = itm_k")
+            print(p)
 
-        machines.update_one(
-            {'_id': current_user.machine[int(m_no)]},
-            {'$set': {'Items': i, 'Price': p},
-             '$currentDate': {'lastModified': True}}
-        )
+            machines.update_one(
+                {'_id': current_user.machine[int(m_no)]},
+                {'$set': {'Items': i, 'Price': p},
+                 '$currentDate': {'lastModified': True}}
+            )
 
-        return redirect(url_for('dashboard', m_no=m_no))
+            return redirect(url_for('dashboard', m_no=m_no))
+    else:
+        return render_template("blank.html", m_no=m_no)
     return render_template('update.html', m_no=m_no, items=items, prices=prices)
 
 
@@ -248,7 +257,7 @@ def download():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('dashboard', m_no=machine_number))
 
     if request.method == 'POST':
         username = request.form.get('username')
@@ -263,7 +272,7 @@ def login():
                     user = User()
                     user.id = username
                     login_user(user)
-                    return redirect(request.args.get('next') or url_for('dashboard', m_no=machine_number))
+                    return redirect(request.args.get('<{}>/next'.format(machine_number)) or url_for('dashboard', m_no=machine_number))
                 else:
                     flash('Please verify your email to continue', 'info')
                     time.sleep(2)
@@ -273,7 +282,7 @@ def login():
         else:
             flash('No user Found with this username', 'info')
 
-    return render_template('login.html')
+    return render_template('login.html', m_no=machine_number)
 
 
 @app.route('/signup', methods=['POST', 'GET'])
