@@ -178,7 +178,7 @@ def chart(m_no):
                            )
 
 
-@app.route('/<m_no>/profile', methods=['POST', 'GET'])
+@app.route('/profile', methods=['POST', 'GET'])
 @login_required
 def profile(m_no):
     if request.method == 'POST':
